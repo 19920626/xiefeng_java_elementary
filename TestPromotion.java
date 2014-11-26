@@ -1,6 +1,6 @@
 package TestDataPromotion;
 
-import dataPromotion.BuyPlan;;
+import dataPromotion.Promotion;
 
 public class TestPromotion {
    public static void main(String[] args)throws Exception{
@@ -48,15 +48,16 @@ public class TestPromotion {
 		   this.price=price;
 	   }
 	   
-	   public void run(){	
-		   BuyPlan doBP = new BuyPlan(phone, price);
-			doBP.doPurchase(phone, price);
-			try {
-				sleep((int) Math.random() * 10); 
-			//延迟是为了模拟多线程同时发生（不知道这个方式对不对）	
-			} catch (Exception e) { 
+	   public void run(){
+		   Promotion promotion = new Promotion();
+		   promotion.doPurchase(phone, price);
+		   try {
+			   sleep((int) Math.random() * 10); 
+			   //延迟是为了模拟多线程同时发生（不知道这个方式对不对）	
+		   } catch (Exception e) { 
 				e.printStackTrace();
-			}
+				System.out.println("sdafasd");
+		   }
 		}
    }
 }
