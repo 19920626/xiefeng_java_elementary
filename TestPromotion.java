@@ -56,7 +56,6 @@ public class TestPromotion {
 			//延迟是为了模拟多线程同时发生（不知道这个方式对不对）	
 			} catch (Exception e) { 
 				e.printStackTrace();
-				System.out.println("sdafasd");
 			}
 		}
    }
