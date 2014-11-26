@@ -3,25 +3,21 @@ package dataPromotion;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class BuyPlan extends Thread{
-	static Promotion p = new Promotion();
-	static Vector<String> tel = p.getTel();
-	static int[] count = p.getCount();
+public class BuyPlan{
+	static Promotion promotion = new Promotion();
+	static Vector<String> tel = promotion.getTel();
+	static int[] count = promotion.getCount();
 	private String phone;
 	private int price;
-	
 
 	public BuyPlan(String phone_number,int price_detail){
 		this.phone=phone_number;
 		this.price=price_detail;
 	}
-	
-	public void run(){		
-		doPurchase(phone, price);
-	}
+
 	//浏览了几位热心网友的博客，发现要让该类所有实例都有约束
 	//需要使用静态类。
-	static synchronized void doPurchase(String phone,int price){
+	public static synchronized void doPurchase(String phone,int price){
 		Boolean con = false;
 		Iterator<String> t = tel.iterator();
 		while(t.hasNext()){
@@ -50,14 +46,6 @@ public class BuyPlan extends Thread{
 			tel.addElement(phone);
 			count[price-1]++;
 			System.out.println(phone+" 用户成功购买！！");
-		}
-	try {
-			sleep((int) Math.random() * 10); 
-		//延迟是为了模拟多线程同时发生（不知道这个方式对不对）	
-		} catch (Exception e) { 
-			e.printStackTrace();
-			System.out.println("sdafasd");
-		}
-		
+		}		
 	}
 }
