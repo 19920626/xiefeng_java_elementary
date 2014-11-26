@@ -16,14 +16,6 @@ public class Promotion {
 	//预留接口，为了测试最大TPS
 	//private static long startTime=new Date().getTime();
 	
-	public static Vector<String> getTel() {
-		return tel;
-	}
-
-	public static int[] getCount() {
-		return count;
-	}
-	
 	//浏览了几位热心网友的博客，发现要让该类所有实例都有约束
 	//需要使用静态类。
 	public static synchronized void doPurchase(String phone,int price){
