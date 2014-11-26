@@ -1,5 +1,6 @@
 package dataPromotion;
 
+import java.util.Date;
 import java.util.Vector;
 
 /*
@@ -11,6 +12,9 @@ public class Promotion {
 	//tel是电话号码的集合，count是手机活动的每个级别已经参与人的个数
 	private static Vector<String> tel = new Vector<String>();
 	private static int[] count = new int[50];
+	//预留接口，为了测试最大TPS
+	//private static long startTime=new Date().getTime();
+	
 	public static Vector<String> getTel() {
 		return tel;
 	}
@@ -25,3 +29,6 @@ public class Promotion {
 	}
     
 }
+
+
+
