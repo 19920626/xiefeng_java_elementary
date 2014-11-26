@@ -58,6 +58,6 @@ public class TestPromotion {
 				e.printStackTrace();
 				System.out.println("sdafasd");
 		   }
-		}
+	  }
    }
 }
