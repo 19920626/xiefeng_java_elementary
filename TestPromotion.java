@@ -10,8 +10,8 @@ public class TestPromotion {
 		phone="12345";
 		 //有延迟地重复多次，在提交前测试时都出现了两次购买成功的案例。
 		 //因此个人认为已经完成并发多线程的实验。
-		for(int i=0;i<2000;i++){
-			Thread doBuyPlan = new BuyPlan(phone,price);
+		for(int i=0;i<10;i++){
+			Thread doBuyPlan = new doBuyPlan(phone,price);
 			doBuyPlan.start();
 		}
 		/*for(int i=0;i<8;i++){//随机产生号码
@@ -20,24 +20,44 @@ public class TestPromotion {
 			  for (int j = 0; j < 5; j++) {
 				phone=phone+(int)(Math.random()*10);
 			}
-		      Thread doBuyPlan = new Buy(phone,price);
-		      doBuyPlan.start();
+		      Thread t = new Buy(phone,price);
+		      t.start();
 		}
 		
 		phone ="12345";
-		Thread doBuyPlan = new Buy(phone,price);
-	    doBuyPlan.start();
+		Thread t = new Buy(phone,price);
+	    t.start();
 	    //测试重复参加的用户
 	    phone="12345";
-	    doBuyPlan = new Buy(phone,price);
-	    doBuyPlan.start();
+	    t = new Buy(phone,price);
+	    t.start();
 	    phone="23456";
-	    doBuyPlan = new Buy(phone,price);
-	    doBuyPlan.start();
+	    t = new Buy(phone,price);
+	    t.start();
 	    //测试已经结束了的活动
 	    phone="2345632";
-	    doBuyPlan = new Buy(phone,price);
-	    doBuyPlan.start();*/
+	    t = new Buy(phone,price);
+	    t.start();*/
 	}
 
+   public static class doBuyPlan extends Thread{
+	   String phone="";
+	   int price=1;
+	   public doBuyPlan(String phone,int price){
+		   this.phone=phone;
+		   this.price=price;
+	   }
+	   
+	   public void run(){	
+		   BuyPlan doBP = new BuyPlan(phone, price);
+			doBP.doPurchase(phone, price);
+			try {
+				sleep((int) Math.random() * 10); 
+			//延迟是为了模拟多线程同时发生（不知道这个方式对不对）	
+			} catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("sdafasd");
+			}
+		}
+   }
 }
