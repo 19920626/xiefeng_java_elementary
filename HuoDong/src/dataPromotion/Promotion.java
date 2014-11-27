@@ -1,8 +1,7 @@
 package dataPromotion;
 
 //import java.util.Date;
-import java.util.Iterator;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /*
  * 这是个简单的促销小程序，旨在模拟多线程下线程安全。
@@ -11,7 +10,7 @@ import java.util.Vector;
  * */
 public class Promotion {
 	//tel是电话号码的集合，count是手机活动的每个级别已经参与人的个数
-	private static Vector<String> tel = new Vector<String>();
+	private static ArrayList<String> tel = new ArrayList<String>();
 	private static int[] count = new int[50];
 	//预留接口，为了测试最大TPS
 	//private static long startTime=new Date().getTime();
@@ -20,11 +19,8 @@ public class Promotion {
 	//需要使用静态类。
 	public static synchronized int doPurchase(String phone,int price){
 		Boolean con = false;
-		Iterator<String> t = tel.iterator();
-		while(t.hasNext()){
-			if(t.next().equals(phone)){
-				con=true;
-			}
+		if(tel.contains(phone)){
+			con=true;
 		}
 		//先判断是否参与过活动了
 		if(con){
