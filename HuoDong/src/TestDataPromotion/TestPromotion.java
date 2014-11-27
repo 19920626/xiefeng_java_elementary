@@ -50,9 +50,9 @@ public class TestPromotion {
 	   }
 	   
 	   public void run(){
-		   Promotion promotion = new Promotion();
+		   //Promotion promotion = new Promotion();
 		   //获得购买后的反馈码
-		   int state = promotion.doPurchase(phone, price);
+		   int state = Promotion.doPurchase(phone, price);
 		   Handle doHandle = new Handle();
 		   doHandle.dealWith(state, phone);
 		   try {
