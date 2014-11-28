@@ -12,8 +12,8 @@ public class PromotionTest {
 		String phone="12345";
 		int price=1;
 		
-		for(int i=0;i<10;i++){
-			Thread doBuyPlan = new doBuyPlan(phone,price);
+		for(int i = 0; i < 10; i ++){
+			Thread doBuyPlan = new doBuyPlan(phone, price);
 			
 			doBuyPlan.start();
 		}	
@@ -23,15 +23,15 @@ public class PromotionTest {
      * 此方法用于实现线程操作
      * */
     public static class doBuyPlan extends Thread{
-	    String phone="";
-	    int price=1;
+	    String phone = "";
+	    int price = 1;
 	    
 	    /*
 	     * 此构造函数用来传参
 	     * */
 	    public doBuyPlan(String phone,int price){
-		    this.phone=phone;
-		    this.price=price;
+		    this.phone = phone;
+		    this.price = price;
 	    }
 	   
 	    /*
