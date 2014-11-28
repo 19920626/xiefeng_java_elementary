@@ -15,7 +15,7 @@ public class Handle {
 	 * 4：当前活动还没开始！
 	 * */
 	public void dealWith(int state, String phone){
-		if(state>=0&&state<=4){ //状态码有效
+		if(state >= 0&&state <= 4){ //状态码有效
 			switch(state){
 				case 0 : 
 					System.out.println("用户" + phone + "您好 ：恭喜您购买成功！");
