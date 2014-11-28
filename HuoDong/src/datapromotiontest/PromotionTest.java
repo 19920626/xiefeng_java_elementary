@@ -29,7 +29,7 @@ public class PromotionTest {
 	    /*
 	     * 此构造函数用来传参
 	     * */
-	    public doBuyPlan(String phone,int price){
+	    public doBuyPlan(String phone, int price){
 		    this.phone = phone;
 		    this.price = price;
 	    }
