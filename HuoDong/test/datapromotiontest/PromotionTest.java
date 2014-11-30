@@ -14,9 +14,9 @@ import org.junit.runners.Parameterized.Parameters;
 
 import datapromotion.Promotion;
 /*
- * @author Ğ»·å
+ * @author è°¢å³°
  * @version 1.0
- * µ¥Ôª²âÊÔ£¬²âÊÔpromotionÀà
+ * å•å…ƒæµ‹è¯•ï¼Œæµ‹è¯•promotionç±»
  * */
 @RunWith(Parameterized.class)
 public class PromotionTest {
@@ -51,41 +51,18 @@ public class PromotionTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        System.out.println("²âÊÔ¿ªÊ¼£¡£¡");
+        System.out.println("æµ‹è¯•å¼€å§‹ï¼ï¼");
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-        System.out.println("²âÊÔ½áÊø£¡£¡");
+        System.out.println("æµ‹è¯•ç»“æŸï¼ï¼");
     }
 
     @Test
     public void testDoPurchase() {
-<<<<<<< HEAD
         int state = Promotion.doPurchase(phone, price);
         
         assertEquals(result, state);
-=======
-		
-        for(int i=0;i<10;i++){
-            new Thread(){
-                String phone="12345";
-                int price=1;
-                public void run(){
-                    int state = Promotion.doPurchase(phone, price);
-                    Handle doHandle = new Handle();
-				   
-                    doHandle.dealWith(state, phone);
-				   
-                    try {
-                        sleep((int) Math.random() * 10); 	
-                    } catch (Exception e) { 
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
-        }	
->>>>>>> parent of 17c4897... Revert "add project HuoDong"
     }
-
 }
