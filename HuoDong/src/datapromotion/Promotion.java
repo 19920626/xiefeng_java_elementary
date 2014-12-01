@@ -14,21 +14,19 @@ public class Promotion {
     /*
      * doPurchase 是用户参与活动功能实现的方法
      * */
-    public static synchronized int doPurchase(long phone,int price) {        
+    public static synchronized int doPurchase(long phone,int price) {
+        boolean con = false;
+        boolean isLegalPhone = false;
         boolean isLegalPrice = false;
         
         if(price >= 1 && price <= 50) { //在1-50内则为合法值
             isLegalPrice = true;
         }
-        
-        boolean isLegalPhone = false;
-        
+       
         if((phone / 100000 == 0) && (phone / 10000 > 0)) { //phone的长度为5，则为合法值（实际应为11）
             isLegalPhone = true;
         }
-        
-        boolean con = false;
-        
+		
         con = tel.contains(phone); //如果包含，则表示参加过了
 		
         if(!isLegalPhone) { //看号码是否合法
