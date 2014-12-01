@@ -21,26 +21,18 @@ import datapromotion.Promotion;
 @RunWith(Parameterized.class)
 public class PromotionTest {
     int price;
-<<<<<<< HEAD
     long phone;
     int result;
     
     public PromotionTest(int result, long phone, int price) {
-=======
-    StringBuffer phone = new StringBuffer();
-    int result;
-    
-    public PromotionTest(int result, StringBuffer phone, int price) {
->>>>>>> parent of 0dbcbf6... Revert "add project HuoDong"
         this.price = price;
-        this.phone.append(phone);
+        this.phone = phone;
         this.result = result;
     }
     
     @Parameters
     public static Collection<?> doPurchaseValues() {
         return Arrays.asList(new Object[][]{
-<<<<<<< HEAD
             {0, 12345, 1}, //正确格式
             {1, 12345, 1}, //参与过了
             {0, 11345, 1},
@@ -56,23 +48,6 @@ public class PromotionTest {
             {5, 323431, 1}, //号码不合法
             {6, 11111, -1}, //价格不合法
             {0, 34567, 2} //晋级此轮活动
-=======
-            {0, new StringBuffer("12345"), 1}, //正确格式
-            {1, new StringBuffer("12345"), 1}, //参与过了
-            {0, new StringBuffer("11345"), 1},
-            {0, new StringBuffer("12145"), 1},
-            {0, new StringBuffer("12315"), 1},
-            {0, new StringBuffer("12341"), 1},
-            {0, new StringBuffer("13345"), 1},
-            {0, new StringBuffer("12335"), 1},
-            {4, new StringBuffer("23456"), 2}, //还没开始
-            {0, new StringBuffer("12343"), 1},
-            {0, new StringBuffer("32345"), 1},
-            {0, new StringBuffer("32343"), 1},
-            {5, new StringBuffer("323431"), 1}, //号码不合法
-            {6, new StringBuffer("11111"), -1}, //价格不合法
-            {0, new StringBuffer("34567"), 2} //晋级此轮活动
->>>>>>> parent of 0dbcbf6... Revert "add project HuoDong"
         });
     }
 
