@@ -13,11 +13,9 @@ public class Handle {
      * 2：系列活动都结束了！
      * 3：当前活动结束了！
      * 4：当前活动还没开始！
-     * 5：不是合法号码！
-     * 6：不是合法价格！
      * */
     public void dealWith(int state, String phone){
-        if(state>=0&&state<=6){ //状态码有效
+        if(state>=0&&state<=4){ //状态码有效
             switch(state){
                 case 0 : 
                     System.out.println("用户" + phone + "您好 ：恭喜您购买成功！");
@@ -34,10 +32,6 @@ public class Handle {
                 case 4 : 
                     System.out.println("用户" + phone + "您好 ：该活动还没开始，您可以参加其他活动。");
                     break;
-                case 5 :
-                    System.out.println("对不起，您输入的号码不正确！请输入正确的号码！");
-                case 6 :
-                    System.out.println("用户" + phone + "您好 ：公司未开展此次活动，或者该活动已经结束！");
                 default : 
                     break;
             }

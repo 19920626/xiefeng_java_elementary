@@ -14,51 +14,49 @@ import org.junit.runners.Parameterized.Parameters;
 
 import datapromotion.Promotion;
 /*
- * @author Ğ»·å
- * @version 2.0
- * µ¥Ôª²âÊÔ£¬²âÊÔpromotionÀà
+ * @author è°¢å³°
+ * @version 1.0
+ * å•å…ƒæµ‹è¯•ï¼Œæµ‹è¯•promotionç±»
  * */
 @RunWith(Parameterized.class)
 public class PromotionTest {
     int price;
-    StringBuffer phone = new StringBuffer();
+    String phone;
     int result;
     
-    public PromotionTest(int result, StringBuffer phone, int price) {
+    public PromotionTest(int result, String phone, int price) {
         this.price = price;
-        this.phone.append(phone);
+        this.phone = phone;
         this.result = result;
     }
     
     @Parameters
     public static Collection<?> doPurchaseValues() {
         return Arrays.asList(new Object[][]{
-            {0, new StringBuffer("12345"), 1}, //ÕıÈ·¸ñÊ½
-            {1, new StringBuffer("12345"), 1}, //²ÎÓë¹ıÁË
-            {0, new StringBuffer("11345"), 1},
-            {0, new StringBuffer("12145"), 1},
-            {0, new StringBuffer("12315"), 1},
-            {0, new StringBuffer("12341"), 1},
-            {0, new StringBuffer("13345"), 1},
-            {0, new StringBuffer("12335"), 1},
-            {4, new StringBuffer("23456"), 2}, //»¹Ã»¿ªÊ¼
-            {0, new StringBuffer("12343"), 1},
-            {0, new StringBuffer("32345"), 1},
-            {0, new StringBuffer("32343"), 1},
-            {5, new StringBuffer("323431"), 1}, //ºÅÂë²»ºÏ·¨
-            {6, new StringBuffer("11111"), -1}, //¼Û¸ñ²»ºÏ·¨
-            {0, new StringBuffer("34567"), 2} //½ú¼¶´ËÂÖ»î¶¯
+            {0,"12345",1},
+            {1,"12345",1},
+            {0,"11345",1},
+            {0,"12145",1},
+            {0,"12315",1},
+            {0,"12341",1},
+            {0,"13345",1},
+            {0,"12335",1},
+            {4,"23456",2},
+            {0,"12343",1},
+            {0,"32345",1},
+            {0,"32343",1},
+            {0,"34567",2}
         });
     }
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        System.out.println("²âÊÔ¿ªÊ¼£¡£¡");
+        System.out.println("æµ‹è¯•å¼€å§‹ï¼ï¼");
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-        System.out.println("²âÊÔ½áÊø£¡£¡");
+        System.out.println("æµ‹è¯•ç»“æŸï¼ï¼");
     }
 
     @Test
@@ -67,5 +65,4 @@ public class PromotionTest {
         
         assertEquals(result, state);
     }
-
 }
