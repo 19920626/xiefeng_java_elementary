@@ -8,13 +8,21 @@ import java.util.ArrayList;
  * 为测试方便，梯度设置为10,号码为5位数
  * */
 public class Promotion {
+<<<<<<< HEAD
     private static ArrayList<Long> tel = new ArrayList<Long>(); //电话号码的集合
+=======
+    private static ArrayList<StringBuffer> tel = new ArrayList<StringBuffer>(); //电话号码的集合
+>>>>>>> parent of 0dbcbf6... Revert "add project HuoDong"
     private static int[] count = new int[50]; //手机活动的每个级别已经参与人的个数 
 	
     /*
      * doPurchase 是用户参与活动功能实现的方法
      * */
+<<<<<<< HEAD
     public static synchronized int doPurchase(long phone,int price) {
+=======
+    public static synchronized int doPurchase(StringBuffer phone,int price) {
+>>>>>>> parent of 0dbcbf6... Revert "add project HuoDong"
         boolean con = false;
         boolean isLegalPhone = false;
         boolean isLegalPrice = false;
@@ -23,12 +31,23 @@ public class Promotion {
             isLegalPrice = true;
         }
        
+<<<<<<< HEAD
         if((phone / 100000 == 0) && (phone / 10000 > 0)) { //phone的长度为5，则为合法值（实际应为11）
             isLegalPhone = true;
         }
 		
         con = tel.contains(phone); //如果包含，则表示参加过了
 		
+=======
+        if(phone.length() == 5) { //phone的长度为5，则为合法值（实际应为11）
+            isLegalPhone = true;
+        }
+		
+        if(tel.toString().contains(phone.toString())) { //如果包含，则表示参加过了（会不会影响效率？）
+            con=true;
+        }
+		
+>>>>>>> parent of 0dbcbf6... Revert "add project HuoDong"
         if(!isLegalPhone) { //看号码是否合法
             return 5;
         } else if(!isLegalPrice) { //看价格是否合法
