@@ -19,12 +19,12 @@ public class UserPhoneImpl implements UserPhoneDao {
         PreparedStatement pStat = null;
         
         try { 
-           // dConn.lockDataBase(conn);
+            dConn.lockDataBase(conn);
             String sql = "insert into promotion (phone) values (?) ";
             pStat = conn.prepareStatement(sql);
             pStat.setLong(1, phone.getPhone()); 
             flag = pStat.executeUpdate();
-          //  dConn.unLockDataBase(conn);
+            dConn.unLockDataBase(conn);
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
@@ -45,7 +45,7 @@ public class UserPhoneImpl implements UserPhoneDao {
         PreparedStatement pStat = null;
         
         try { 
-            //dConn.lockDataBase(conn);
+            dConn.lockDataBase(conn);
             String sql = "select id from promotion where phone = " + phone.getPhone() + "";
             pStat = conn.prepareStatement(sql);
             ResultSet rs = pStat.executeQuery();
@@ -53,7 +53,7 @@ public class UserPhoneImpl implements UserPhoneDao {
             while(rs.next()){
                 flag = rs.getInt(1);
             }
-           // dConn.unLockDataBase(conn);
+            dConn.unLockDataBase(conn);
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
@@ -74,7 +74,7 @@ public class UserPhoneImpl implements UserPhoneDao {
         PreparedStatement pStat = null;
         
         try { 
-           // dConn.lockDataBase(conn);
+            dConn.lockDataBase(conn);
             String sql = "select count(*) from promotion";
             pStat = conn.prepareStatement(sql);
             ResultSet rs = pStat.executeQuery();
@@ -83,7 +83,7 @@ public class UserPhoneImpl implements UserPhoneDao {
                 flag = rs.getInt(1);
             }
                 
-           // dConn.unLockDataBase(conn);
+            dConn.unLockDataBase(conn);
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
