@@ -19,12 +19,12 @@ public class UserPhoneImpl implements UserPhoneDao {
         PreparedStatement pStat = null;
         
         try { 
-            dConn.lockDataBase(conn);
+            conn.setAutoCommit(false); //用事务处理的方式实现数据库安全
             String sql = "insert into promotion (phone) values (?) ";
             pStat = conn.prepareStatement(sql);
             pStat.setLong(1, phone.getPhone()); 
             flag = pStat.executeUpdate();
-            dConn.unLockDataBase(conn);
+            conn.commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
@@ -44,8 +44,8 @@ public class UserPhoneImpl implements UserPhoneDao {
         Connection conn = dConn.getConn();
         PreparedStatement pStat = null;
         
-        try { 
-            dConn.lockDataBase(conn);
+        try {
+            conn.setAutoCommit(false);
             String sql = "select id from promotion where phone = " + phone.getPhone() + "";
             pStat = conn.prepareStatement(sql);
             ResultSet rs = pStat.executeQuery();
@@ -53,7 +53,7 @@ public class UserPhoneImpl implements UserPhoneDao {
             while(rs.next()){
                 flag = rs.getInt(1);
             }
-            dConn.unLockDataBase(conn);
+            conn.commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
@@ -74,7 +74,7 @@ public class UserPhoneImpl implements UserPhoneDao {
         PreparedStatement pStat = null;
         
         try { 
-            dConn.lockDataBase(conn);
+            conn.setAutoCommit(false);
             String sql = "select count(*) from promotion";
             pStat = conn.prepareStatement(sql);
             ResultSet rs = pStat.executeQuery();
@@ -83,7 +83,7 @@ public class UserPhoneImpl implements UserPhoneDao {
                 flag = rs.getInt(1);
             }
                 
-            dConn.unLockDataBase(conn);
+            conn.commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
