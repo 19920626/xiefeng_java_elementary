@@ -3,9 +3,11 @@ package server.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DataConnection {
     static Connection conn = null;
+    Statement pStat = null;
     
     public Connection getConn() { //连接数据库
         try{
@@ -25,5 +27,39 @@ public class DataConnection {
             System.out.println("驱动未加载");
         }
         return conn;
+    }
+    
+    public void lockDataBase(Connection conn) { //对数据库加锁
+        try {
+            String sql = "LOCK TABLES promotion WRITE";
+            
+            pStat = conn.createStatement();
+            pStat.execute(sql);
+        } catch (SQLException e) {
+           e.printStackTrace();
+        } finally{
+            try {
+                pStat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void unLockDataBase(Connection conn) {
+        try {
+            String sql = "UNLOCK TABLES";
+            
+            pStat = conn.createStatement();
+            pStat.execute(sql);
+        } catch (SQLException e) {
+           e.printStackTrace();
+        } finally{
+            try {
+                pStat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
