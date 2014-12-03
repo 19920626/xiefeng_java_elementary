@@ -2,12 +2,12 @@ package server.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DataConnection {
     static Connection conn = null;
-    PreparedStatement pStat = null;
+    Statement pStat = null;
     
     public Connection getConn() { //连接数据库
         try{
@@ -33,7 +33,7 @@ public class DataConnection {
         try {
             String sql = "LOCK TABLES promotion WRITE";
             
-            pStat = conn.prepareStatement(sql);
+            pStat = conn.createStatement();
             pStat.execute(sql);
         } catch (SQLException e) {
            e.printStackTrace();
@@ -50,7 +50,7 @@ public class DataConnection {
         try {
             String sql = "UNLOCK TABLES";
             
-            pStat = getConn().prepareStatement(sql);
+            pStat = conn.createStatement();
             pStat.execute(sql);
         } catch (SQLException e) {
            e.printStackTrace();
