@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import server.dao.UserPhoneDao;
 import server.db.DataConnection;
@@ -12,7 +13,7 @@ import server.entity.UserPhone;
 public class UserPhoneImpl implements UserPhoneDao {
 
     @Override
-    public long addPhone(UserPhone phone) {
+    public int addPhone(UserPhone phone) {
         int flag = 0; //是否成功
         DataConnection dConn = new DataConnection();
         Connection conn = dConn.getConn();
@@ -24,7 +25,24 @@ public class UserPhoneImpl implements UserPhoneDao {
             pStat = conn.prepareStatement(sql);
             pStat.setLong(1, phone.getPhone()); 
             flag = pStat.executeUpdate();
-            conn.commit();
+            sql = "select count(*) from promotion";
+            Statement stat = conn.createStatement();
+            ResultSet rs = pStat.executeQuery(sql);
+            int count = 0;
+            
+            while(rs.next()) {
+                count = rs.getInt(1);
+            }
+            
+            if(count - phone.getPrice() * 10 > 0) { //再次检查总数。如果大于单次活动的总数，就回滚
+                conn.rollback();
+            } else { //否则可以提交
+                conn.commit();
+            }   
+            
+            if(stat != null){
+                stat.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             try {

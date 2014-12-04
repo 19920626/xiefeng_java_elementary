@@ -42,8 +42,11 @@ public class Promotion {
             return 4;
         }
         
-        userPhone.addPhone(user); //符合要求，将电话号码录入，当前活动参与人数+1
-
+        int flag = userPhone.addPhone(user); //符合要求，将电话号码录入，当前活动参与人数+1
+        if(flag <= 0) { //如果插入异常，返回7
+            return 7;
+        }
+        
         return 0;
     }
 }

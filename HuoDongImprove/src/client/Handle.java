@@ -15,6 +15,7 @@ public class Handle {
      * 4：当前活动还没开始！
      * 5：不是合法号码！
      * 6：不是合法价格！
+     * 7：当前系统忙！
      * */
     public String dealWith(int state, long phone){
         if(state>=0&&state<=6){ //状态码有效
@@ -33,6 +34,8 @@ public class Handle {
                     return ("对不起，您输入的号码不正确！请输入正确的号码！");
                 case 6 :
                     return ("用户" + phone + "您好 ：公司未开展此次活动，或者该活动已经结束！");
+                case 7 :
+                    return ("用户" + phone + "您好 ：当前系统忙！");
                 default : 
                     break;
             }
