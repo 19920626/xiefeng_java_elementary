@@ -24,6 +24,7 @@ public class Promotion {
         UserPhoneImpl userPhone = new UserPhoneImpl();
         UserPhone user = new UserPhone();
         user.setPhone(phone);
+        user.setPrice(price);
         int con = 0;
         con = userPhone.findUser(user); //如果包含，则表示参加过了
         int count = userPhone.countAll();
