@@ -15,8 +15,9 @@ public class Promotion {
         }
         
         boolean isLegalPhone = false;
-        
-        if((phone / 100000 == 0) && (phone / 10000 > 0)) { //phone的长度为5，则为合法值（实际应为11）
+        long num1 = 100000000000l;
+        long num2 = 10000000000l;
+        if((phone / num1 == 0) && (phone / num2 > 0)) { //phone的长度11，则为合法值
             isLegalPhone = true;
         }
                
