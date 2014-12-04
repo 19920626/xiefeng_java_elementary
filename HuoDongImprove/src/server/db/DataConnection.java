@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DataConnection {
     static Connection conn = null;
     
-    public Connection getConn() { //Á¬½ÓÊı¾İ¿â
+    public Connection getConn() { //è¿æ¥æ•°æ®åº“
         try{
             String url = "jdbc:mysql://localhost/huodong";
             String user = "root";
@@ -22,7 +22,7 @@ public class DataConnection {
             }
         }
         catch(ClassNotFoundException e){
-            System.out.println("Êı¾İÎ´¼ÓÔØ");
+            System.out.println("æ•°æ®æœªåŠ è½½");
         }
         return conn;
     }
