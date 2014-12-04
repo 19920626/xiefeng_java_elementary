@@ -22,7 +22,7 @@ public class DataConnection {
             }
         }
         catch(ClassNotFoundException e){
-            System.out.println("驱动未加载");
+            System.out.println("数据未加载");
         }
         return conn;
     }

@@ -1,4 +1,4 @@
-package server.daoImpl;
+package server.daoimpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,9 +27,15 @@ public class UserPhoneImpl implements UserPhoneDao {
             conn.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally{
             try {
                 pStat.close();
+                conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -50,15 +56,21 @@ public class UserPhoneImpl implements UserPhoneDao {
             pStat = conn.prepareStatement(sql);
             ResultSet rs = pStat.executeQuery();
             
-            while(rs.next()){
+            while(rs.next()) {
                 flag = rs.getInt(1);
             }
             conn.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally{
             try {
                 pStat.close();
+                conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -79,16 +91,22 @@ public class UserPhoneImpl implements UserPhoneDao {
             pStat = conn.prepareStatement(sql);
             ResultSet rs = pStat.executeQuery();
             
-            while(rs.next()){
+            while(rs.next()) {
                 flag = rs.getInt(1);
             }
                 
             conn.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         } finally{
             try {
                 pStat.close();
+                conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -1,13 +1,13 @@
 package server.ser;
 
-import server.daoImpl.UserPhoneImpl;
+import server.daoimpl.UserPhoneImpl;
 import server.entity.UserPhone;
 
 public class Promotion {
     /*
      * doPurchase 是用户参与活动功能实现的方法
      * */
-    public static synchronized int doPurchase(long phone,int price) {        
+    public static int doPurchase(long phone,int price) {        
         boolean isLegalPrice = false;
         
         if(price >= 1 && price <= 50) { //在1-50内则为合法值
