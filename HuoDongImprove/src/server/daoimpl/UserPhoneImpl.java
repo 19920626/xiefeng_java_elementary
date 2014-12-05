@@ -21,23 +21,35 @@ public class UserPhoneImpl implements UserPhoneDao {
         
         try { 
             conn.setAutoCommit(false); //用事务处理的方式实现数据库安全
-            String sql = "insert into promotion (phone) values (?) ";
+            String sql = "select id from promotion where phone = " + phone.getPhone() + "";
+            Statement stat = conn.createStatement();
+            ResultSet re = stat.executeQuery(sql);
+            int idNum = 0;
+            
+            while(re.next()) {
+                idNum = re.getInt(1);
+            }
+            
+            sql = "insert into promotion (phone) values (?) ";
             pStat = conn.prepareStatement(sql);
             pStat.setLong(1, phone.getPhone()); 
             flag = pStat.executeUpdate();
+            
             sql = "select count(*) from promotion";
-            Statement stat = conn.createStatement();
+            
             ResultSet rs = pStat.executeQuery(sql);
             int count = 0;
             
             while(rs.next()) {
                 count = rs.getInt(1);
             }
-            
-            if(count - phone.getPrice() * 10 > 0) { //再次检查总数。如果大于单次活动的总数，就回滚
-                conn.rollback();
-            } else { //否则可以提交
+
+            if(count - phone.getPrice() * 10 < 0 && idNum <= 0 ) { 
+                //再次检查总数和号码。如果小于单次活动的总数且没有插入过，就提交
                 conn.commit();
+            } else { //否则必须回滚 
+                conn.rollback();
+                flag = 0;
             }   
             
             if(stat != null){
