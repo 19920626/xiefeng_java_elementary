@@ -30,9 +30,23 @@ public class UserPhoneImpl implements UserPhoneDao {
             while(rs.next()) {
                 count = rs.getInt(1);
             }
+            sql = "select count(*) from sign where phoneSign < " + count + ""; //确定“真”的count
+            ResultSet re = stat.executeQuery(sql);
+            while(re.next()) {
+                count = re.getInt(1);
+            }
             
             sql = "insert into sign (phoneSign) values (" + count + ") ";
-            stat.executeUpdate(sql);
+            try {
+                stat.executeUpdate(sql); 
+                //如果插入失败，则为count赋在count～本级最大值之间随机一个count，再插入一次，如果这次还失败，
+                //则说明现在是并发量高峰期，已无更多资源给该用户了
+            } catch (SQLException e) {
+                e.printStackTrace();
+                int count2 = (int)(Math.random() * (phone.getPrice() * 10000 - count)) + count;
+                sql = "insert into sign (phoneSign) values (" + count2 + ") ";
+                stat.executeUpdate(sql);
+            }
             
             sql = "insert into promotion (phone) values (?) ";
             pStat = conn.prepareStatement(sql);
