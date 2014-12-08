@@ -51,12 +51,23 @@ public class UserPhoneImpl implements UserPhoneDao {
             sql = "insert into promotion (phone) values (?) ";
             pStat = conn.prepareStatement(sql);
             pStat.setLong(1, phone.getPhone()); 
-            flag = pStat.executeUpdate();         
-            conn.commit();  
+            flag = pStat.executeUpdate(); 
+            sql = "select count(*) from promotion";
+            ResultSet res = stat.executeQuery(sql);
             
+            while(res.next()) {
+                count = res.getInt(1);
+            }
             if(stat != null){
                 stat.close();
             }
+            
+            if(count - phone.getPrice() * 10000 <= 0) {
+                conn.commit();
+            } else {
+                flag = 0;
+                conn.rollback();
+            }  
         } catch (Exception e) {
             e.printStackTrace();
             try {
