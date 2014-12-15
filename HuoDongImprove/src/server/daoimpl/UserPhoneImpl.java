@@ -14,14 +14,15 @@ public class UserPhoneImpl implements UserPhoneDao {
 
     @Override
     public int addPhone(UserPhone phone) {
-        int flag = 0; //ÊÇ·ñ³É¹¦
+        int flag = 0; //æ˜¯å¦æˆåŠŸ
         DataConnection dConn = new DataConnection();
         Connection conn = dConn.getConn();
         PreparedStatement pStat = null;
         
         try { 
-            conn.setAutoCommit(false); //ÓÃÊÂÎñ´¦ÀíµÄ·½Ê½ÊµÏÖÊı¾İ¿â°²È«
-            String sql = "select count(*) from promotion";
+            conn.setAutoCommit(false); //ç”¨äº‹åŠ¡å¤„ç†çš„æ–¹å¼å®ç°æ•°æ®åº“å®‰å…¨
+            //ç¡®å®šâ€œçœŸâ€çš„countæ ‡å¿—(ç”±äºå¤šå¹¶å‘æ—¶çš„éšæœºåˆ†é…æ ‡å¿—ï¼Œå•çº¯çš„countæ˜¯æ’å…¥çš„æ‰€æœ‰æ•°æ®ä¸ªæ•°ï¼Œè€Œä¸æ˜¯ä¾æ®é€»è¾‘æ‰§è¡Œæ¬¡æ•°æ¥çœ‹çš„)
+            String sql = "select count(*) from sign where phoneSign < (select count(*) from promotion)";
             Statement stat = conn.createStatement();
             
             ResultSet rs = stat.executeQuery(sql);
@@ -30,17 +31,12 @@ public class UserPhoneImpl implements UserPhoneDao {
             while(rs.next()) {
                 count = rs.getInt(1);
             }
-            sql = "select count(*) from sign where phoneSign < " + count + ""; //È·¶¨¡°Õæ¡±µÄcount
-            ResultSet re = stat.executeQuery(sql);
-            while(re.next()) {
-                count = re.getInt(1);
-            }
             
             sql = "insert into sign (phoneSign) values (" + count + ") ";
             try {
                 stat.executeUpdate(sql); 
-                //Èç¹û²åÈëÊ§°Ü£¬ÔòÎªcount¸³ÔÚcount¡«±¾¼¶×î´óÖµÖ®¼äËæ»úÒ»¸öcount£¬ÔÙ²åÈëÒ»´Î£¬Èç¹ûÕâ´Î»¹Ê§°Ü£¬
-                //ÔòËµÃ÷ÏÖÔÚÊÇ²¢·¢Á¿¸ß·åÆÚ£¬ÒÑÎŞ¸ü¶à×ÊÔ´¸ø¸ÃÓÃ»§ÁË
+                //å¦‚æœæ’å…¥å¤±è´¥ï¼Œåˆ™ä¸ºcountèµ‹åœ¨countï½æœ¬çº§æœ€å¤§å€¼ä¹‹é—´éšæœºä¸€ä¸ªcountï¼Œå†æ’å…¥ä¸€æ¬¡ï¼Œå¦‚æœè¿™æ¬¡è¿˜å¤±è´¥ï¼Œ
+                //åˆ™è¯´æ˜ç°åœ¨æ˜¯å¹¶å‘é‡é«˜å³°æœŸï¼Œå·²æ— æ›´å¤šèµ„æºç»™è¯¥ç”¨æˆ·äº†
             } catch (SQLException e) {
                 e.printStackTrace();
                 int count2 = (int)(Math.random() * (phone.getPrice() * 10000 - count)) + count;
@@ -88,7 +84,7 @@ public class UserPhoneImpl implements UserPhoneDao {
 
     @Override
     public int findUser(UserPhone phone) {
-        int flag = 0; //Ëù²é¶ÔÏóµÄÏÂ±ê£¬Ã»ÓĞÔòÎª-1
+        int flag = 0; //æ‰€æŸ¥å¯¹è±¡çš„ä¸‹æ ‡ï¼Œæ²¡æœ‰åˆ™ä¸º-1
         DataConnection dConn = new DataConnection();
         Connection conn = dConn.getConn();
         PreparedStatement pStat = null;
@@ -123,7 +119,7 @@ public class UserPhoneImpl implements UserPhoneDao {
 
     @Override
     public int countAll() {
-        int flag = 0; //ËùÓĞ²ÎÓëµÄÓÃ»§µÄ×ÜÁ¿
+        int flag = 0; //æ‰€æœ‰å‚ä¸çš„ç”¨æˆ·çš„æ€»é‡
         DataConnection dConn = new DataConnection();
         Connection conn = dConn.getConn();
         PreparedStatement pStat = null;
