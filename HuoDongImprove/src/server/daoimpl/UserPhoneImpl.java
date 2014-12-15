@@ -21,7 +21,8 @@ public class UserPhoneImpl implements UserPhoneDao {
         
         try { 
             conn.setAutoCommit(false); //用事务处理的方式实现数据库安全
-            String sql = "select count(*) from promotion";
+            //确定“真”的count标志(由于多并发时的随机分配标志，单纯的count是插入的所有数据个数，而不是依据逻辑执行次数来看的)
+            String sql = "select count(*) from sign where phoneSign < (select count(*) from promotion)";
             Statement stat = conn.createStatement();
             
             ResultSet rs = stat.executeQuery(sql);
@@ -29,11 +30,6 @@ public class UserPhoneImpl implements UserPhoneDao {
             
             while(rs.next()) {
                 count = rs.getInt(1);
-            }
-            sql = "select count(*) from sign where phoneSign < " + count + ""; //确定“真”的count
-            ResultSet re = stat.executeQuery(sql);
-            while(re.next()) {
-                count = re.getInt(1);
             }
             
             sql = "insert into sign (phoneSign) values (" + count + ") ";
