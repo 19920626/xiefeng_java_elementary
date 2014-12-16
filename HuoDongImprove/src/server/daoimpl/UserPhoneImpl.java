@@ -25,17 +25,17 @@ public class UserPhoneImpl implements UserPhoneDao {
             String sql = "select count from phoneCount where id = 1";
             Statement stat = conn.createStatement();  
             ResultSet rs = stat.executeQuery(sql);
-            int count = 0;
+            int count = 0; //count是标志的值。（顺序插入的次数）
             
             while(rs.next()) {
                 count = rs.getInt(1);
             }
             
-            sql = "insert into sign (phoneSign) values (" + count + ") ";
+            sql = "insert into sign (phoneSign) values (" + count + ") "; //将标志插入sign表
             try {
                 stat.executeUpdate(sql); 
-                //如果插入失败，则为count赋在count～本级最大值之间随机一个count，再插入一次，如果这次还失败，
-                //则说明现在是并发量高峰期，已无更多资源给该用户了
+                //如果插入失败，则为count赋在count～本级最大值之间随机一个count，再插入一次，
+                //如果这次还失败，则说明现在是并发量高峰期，已无更多资源给该用户了
                 sql = "update phoneCount set count = count + 1 where id = 1";
                 stat.executeUpdate(sql);
             } catch (SQLException e) {
@@ -45,13 +45,14 @@ public class UserPhoneImpl implements UserPhoneDao {
                 stat.executeUpdate(sql);
             }
             
-            sql = "insert into promotion (phone) values (?) ";
+            sql = "insert into promotion (phone) values (?) "; //确认安全，在promotion表中插入号码
             pStat = conn.prepareStatement(sql);
             pStat.setLong(1, phone.getPhone()); 
             flag = pStat.executeUpdate(); 
-            sql = "update phoneCount set count = count + 1 where id = 2";
+            sql = "update phoneCount set count = count + 1 where id = 2"; 
+            //插入成功后，phoneCount里的总数应该加一
             stat.executeUpdate(sql);
-            sql = "select count from phoneCount where id = 2";
+            sql = "select count from phoneCount where id = 2"; //重新获取已经插入的号码总数
             ResultSet res = stat.executeQuery(sql);
             
             while(res.next()) {
