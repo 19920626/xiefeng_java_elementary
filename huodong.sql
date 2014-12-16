@@ -26,6 +26,10 @@ CREATE TABLE `phonecount` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
+-- phonecount表中只有两个元素id=1的是顺序插入的次数，id=2的是插入的数据的总个数（详细说明见下面的sign表说明）
+-- ----------------------------
+
+-- ----------------------------
 -- Records of phonecount
 -- ----------------------------
 INSERT INTO `phonecount` VALUES ('1', '16');
@@ -74,6 +78,12 @@ CREATE TABLE `sign` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `phoneSign` (`phoneSign`)
 ) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=gbk;
+
+-- ----------------------------
+-- sign有标志的意思，表示的是号码的存储标志
+--phoneSign是里面起主要作用的字段，每个值都是一个标志，这个值是该号码插入前，promotion的表中的数据量count（顺序插入的次数）
+--这个值也可能是随机产生的在count～本级活动的阈值。（并发时顺序插入每次只能插入一个，所以为同时发出请求的未获得该次标志的客户随机分配后面的未分配的标志）
+-- ----------------------------
 
 -- ----------------------------
 -- Records of sign
