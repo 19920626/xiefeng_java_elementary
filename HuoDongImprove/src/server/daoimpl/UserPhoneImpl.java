@@ -25,10 +25,26 @@ public class UserPhoneImpl implements UserPhoneDao {
             String sql = "select count from phoneCount where id = 1";
             Statement stat = conn.createStatement();  
             ResultSet rs = stat.executeQuery(sql);
-            int count = 0; //count是标志的值。（顺序插入的次数）
-            
+            int count = 0; //count是标志的值。（顺序插入的次数）            
             while(rs.next()) {
                 count = rs.getInt(1);
+            }
+            
+            //减少后面随机产生的标志对顺序插入标志的影响
+            sql = "select id from sign where phoneSign = " + count + "";
+            ResultSet re = stat.executeQuery(sql);
+            int contained = 0;
+            while(re.next()) {
+                contained = re.getInt(1);
+            }
+            while(contained > 0) { 
+                count ++;
+                contained = 0;
+                sql = "select id from sign where phoneSign = " + count + "";
+                re = stat.executeQuery(sql);
+                while(re.next()) {
+                    contained = re.getInt(1);
+                }
             }
             
             sql = "insert into sign (phoneSign) values (" + count + ") "; //将标志插入sign表
@@ -88,7 +104,7 @@ public class UserPhoneImpl implements UserPhoneDao {
 
     @Override
     public int findUser(UserPhone phone) {
-        int flag = 0; //所查对象的下标，没有则为-1
+        int flag = 0; //所查对象的下标，没有则为0
         DataConnection dConn = new DataConnection();
         Connection conn = dConn.getConn();
         PreparedStatement pStat = null;
