@@ -12,6 +12,14 @@ import server.entity.UserPhone;
 
 public class UserPhoneImpl implements UserPhoneDao {
 
+    /*
+     * 在插入号码之前，先给号码领取插入标志，（0～49999唯一的编号）
+     * 以时间点为标志，每个时间点只有一个标志。
+     * 在同一个时间点多个请求时，分配后面未分配的当前级别时间点（每一万一个级别）。
+     * 因此产生两个变量：当前时间点的号码，总共已经给的号码。两数据存在phonecount表中
+     * id=1时，当前时间点的号码。
+     * id=2时，总共已经给的号码。
+     * */
     @Override
     public int addPhone(UserPhone phone) {
         int flag = 0; //是否成功
