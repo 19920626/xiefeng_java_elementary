@@ -13,12 +13,13 @@ import server.entity.UserPhone;
 public class UserPhoneImpl implements UserPhoneDao {
 
     /*
-     * 在插入号码之前，先给号码领取插入标志，（0～49999唯一的编号）
+     * 在插入手机号码之前，先给手机号码领取插入标志，（0～49999唯一的编号）
      * 以时间点为标志，每个时间点只有一个标志。
-     * 在同一个时间点多个请求时，分配后面未分配的当前级别时间点（每一万一个级别）。
-     * 因此产生两个变量：当前时间点的号码，总共已经给的号码。两数据存在phonecount表中
-     * id=1时，当前时间点的号码。
-     * id=2时，总共已经给的号码。
+     * 在同一个时间点收到多个请求时，分配后面未分配的当前级别的时间点（每一万一个级别）。
+     * 因此产生两个变量：当前时间点的标志，已经给的标志总数。
+     * 两数据存在phonecount表中：
+     * id=1时，当前时间点的标志。
+     * id=2时，已分配的标志总数。
      * */
     @Override
     public int addPhone(UserPhone phone) {
@@ -29,17 +30,17 @@ public class UserPhoneImpl implements UserPhoneDao {
         
         try { 
             conn.setAutoCommit(false); //用事务处理的方式实现数据库安全
-            String sql = "select count from phoneCount where id = 1"; //首先获取当前时间点的号码
+            String sql = "select count from phoneCount where id = 1"; //首先获取当前时间点的标志
             Statement stat = conn.createStatement();  
             ResultSet rs = stat.executeQuery(sql);
-            int count = 0;  //用count存取出的值          
+            int count = 0;  //用count存取出的值（说明：程序设计初并不是用时间点而是用计数这个概念，所以选用count作为变量名）         
             while(rs.next()) {
                 count = rs.getInt(1);
             }
             
             /*
-             * 这个代码块是判断当前时间点的号码count是否已经被用过了，因为并发会用到后面未到的时间点的号码。
-             * 如果已经用过了就将count+1，然后继续判断，直到count是个没有用过的时间点的号码。
+             * 这个代码块是判断当前时间点的标志是否已经被用过了，因为并发会随机分配后面未到的时间点的标志。
+             * 如果已经用过了就将count+1，然后继续判断，直到count是个没有用过的标志。
              * */
             sql = "select id from sign where phoneSign = " + count + "";
             ResultSet re = stat.executeQuery(sql);
@@ -61,24 +62,24 @@ public class UserPhoneImpl implements UserPhoneDao {
              * 这个代码块是标志插入的算法。
              * 先将标志插入sign表，如果插入失败，则为count赋在count～本级最大值之间随机一个count。
              * 再插入一次如果这次还失败，则说明现在是并发量高峰期，已无更多资源给该用户了。
-             * 如果插入成功，则当前号码（标志）已经用过，数据库中当前时间点号码+1。
+             * 如果插入成功，则当前标志已经用过，数据库中当前时间点标志+1（id=1）。
              * */
             sql = "insert into sign (phoneSign) values (" + count + ") "; 
             try {
                 stat.executeUpdate(sql); 
-                sql = "update phoneCount set count = count + 1 where id = 1"; //插入成功，数据库中当前时间点号码+1.（id=1）
+                sql = "update phoneCount set count = count + 1 where id = 1"; //插入成功，数据库中当前时间点标志+1.（id=1）
                 stat.executeUpdate(sql);
             } catch (SQLException e) {
                 e.printStackTrace();
                 int count2 = (int)(Math.random() * (phone.getPrice() * 10000 - count)) + count;
-                sql = "insert into sign (phoneSign) values (" + count2 + ") "; //这句代码就是实现在count～本级最大值之间随机一个count的
+                sql = "insert into sign (phoneSign) values (" + count2 + ") "; //这句代码产生(count～本级最大值【x9999】]，随机的一个count
                 stat.executeUpdate(sql);
             }
             
             /*
-             * 这个代码块是最后一个阶段，将号码和价格插入promotion表。
+             * 这个代码块是最后一个阶段，将手机号码和价格插入promotion表。
              * 如果成功，该用户基本已经购买成功了，到了这个阶段，肯定消耗了一个标志（不论是不是当前时间点的标志），因此消耗总数+1（id=2）。
-             * 最后还会再读取消耗标志的总数，看是不是超过当前阶段的最大值，如果超过了，就回滚，否则就成功了，返回flag。
+             * 最后还会再读取已分配标志的总数（id=2），看是不是超过当前阶段的最大值，如果超过了，就回滚，否则就成功了.最后返回flag。
              * */
             sql = "insert into promotion (phone,price) values (?,?) "; //将号码和价格插入promotion表
             pStat = conn.prepareStatement(sql);
