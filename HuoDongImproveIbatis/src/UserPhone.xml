@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+      
+ <mapper namespace="server.dao.UserPhoneDao">
+ 	<insert id="addUserPhone" parameterType="server.entity.UserPhone">
+ 		insert into promotion(phone,price) value(#{phone},#{price})
+ 	</insert>
+ 	
+ 	<select id="selectUserPhone" resultType="java.lang.Integer" parameterType="java.lang.Long">
+ 		select id from promotion where phone = #{phone}
+ 	</select>
+ 	
+ 	<parameterMap type="map" id="homeVO"> 
+ 		<parameter property = "countPhone" jdbcType = "INTEGER" mode = "OUT" />
+ 	</parameterMap>
+ 	<select id="selectCount" statementType="CALLABLE" parameterMap="homeVO">
+ 		{call selectCount(?)}
+ 	</select>
+ 	
+ </mapper>
