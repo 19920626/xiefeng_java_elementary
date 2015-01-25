@@ -30,7 +30,7 @@ public class UserPhoneImpl implements UserPhoneDao {
      } 
 
     /*
-     *（数据库表结构参照huodongimprove_new.sql文档注释）
+     *（数据库表结构参照huodongimproveibatis.sql文档注释）
      * 将手机号码和价格插入promotion表。
      * 数据总量count+1（触发器实现）
      * 读取数据总量count，如果总量越界，则回滚，否则提交（存储过程实现）
