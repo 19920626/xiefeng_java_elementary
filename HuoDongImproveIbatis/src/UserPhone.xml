@@ -12,11 +12,8 @@
  		select id from promotion where phone = #{phone}
  	</select>
  	
- 	<parameterMap type="map" id="homeVO"> 
- 		<parameter property = "countPhone" jdbcType = "INTEGER" mode = "OUT" />
- 	</parameterMap>
- 	<select id="selectCount" statementType="CALLABLE" parameterMap="homeVO">
- 		{call selectCount(?)}
+ 	<select id="selectCounts" resultType="java.lang.Integer">
+ 		select count from summation
  	</select>
  	
  </mapper>
